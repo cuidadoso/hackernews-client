@@ -1,0 +1,10 @@
+query allLinks {
+    feed {
+        links {
+            id
+            createdAt
+            url
+            description
+        }
+    }
+}
