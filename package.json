@@ -18,7 +18,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "prettier": "prettier --write \"**/*.js\""
+    "prettier": "prettier --write \"**/*.{js,jsx,graphql,json,scss,css,,md}\""
   },
   "husky": {
     "hooks": {
@@ -33,6 +33,30 @@
   },
   "lint-staged": {
     "*.js": [
+      "yarn run prettier",
+      "git add"
+    ],
+    "*.jsx": [
+      "yarn run prettier",
+      "git add"
+    ],
+    "*.graphql": [
+      "yarn run prettier",
+      "git add"
+    ],
+    "*.json": [
+      "yarn run prettier",
+      "git add"
+    ],
+    "*.scss": [
+      "yarn run prettier",
+      "git add"
+    ],
+    "*.css": [
+      "yarn run prettier",
+      "git add"
+    ],
+    "*.md": [
       "yarn run prettier",
       "git add"
     ]
