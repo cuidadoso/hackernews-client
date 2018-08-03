@@ -1,0 +1,12 @@
+query voteByUserAndLink($userId: ID!, $linkId: ID!) {
+  voteByUserAndLink(userId: $userId, linkId: $linkId) {
+    id
+    createdAt
+    user {
+      id
+    }
+    link {
+      id
+    }
+  }
+}

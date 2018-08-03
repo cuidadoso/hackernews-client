@@ -1,0 +1,12 @@
+query vote($id: ID!) {
+  vote(id: $id) {
+    id
+    createdAt
+    user {
+      id
+    }
+    link {
+      id
+    }
+  }
+}

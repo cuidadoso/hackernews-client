@@ -1,0 +1,10 @@
+mutation signinUser($auth: AuthData!) {
+  signinUser(auth: $auth) {
+    token
+    user {
+      id
+      email
+      name
+    }
+  }
+}

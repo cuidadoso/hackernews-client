@@ -1,0 +1,26 @@
+query allUsers {
+  allUsers {
+    id
+    name
+    email
+    password
+  }
+}
+
+query allUsers($email: String) {
+  allUsers(email: $email) {
+    id
+    name
+    email
+    password
+  }
+}
+
+query allUsers($skip: Int, $first: Int) {
+  allUsers(skip: $skip, first: $first) {
+    id
+    name
+    email
+    password
+  }
+}

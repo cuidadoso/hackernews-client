@@ -1,0 +1,32 @@
+query allLinks {
+  allLinks {
+    id
+    url
+    description
+    postedBy {
+      name
+    }
+  }
+}
+
+query allLinks($filter: LinkFilter) {
+  allLinks(filter: $filter) {
+    id
+    url
+    description
+    postedBy {
+      name
+    }
+  }
+}
+
+query allLinks($skip: Int, $first: Int) {
+  allLinks(skip: $skip, first: $first) {
+    id
+    url
+    description
+    postedBy {
+      name
+    }
+  }
+}

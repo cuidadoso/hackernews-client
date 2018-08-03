@@ -1,0 +1,34 @@
+query allVotes {
+  allVotes {
+    id
+    createdAt
+    user {
+      id
+    }
+    link {
+      id
+    }
+  }
+}
+
+query allVotes($userId: ID, $linkId: ID) {
+  allVotes(userId: $userId, linkId: $linkId) {
+    id
+    name
+    email
+    password
+  }
+}
+
+query allVotes($skip: Int, $first: Int) {
+  allVotes(skip: $skip, first: $first) {
+    id
+    createdAt
+    user {
+      id
+    }
+    link {
+      id
+    }
+  }
+}

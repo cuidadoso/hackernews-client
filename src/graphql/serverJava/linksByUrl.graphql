@@ -1,0 +1,7 @@
+query linksByUrl($url: String!) {
+  linksByUrl(url: $url) {
+    id
+    url
+    description
+  }
+}

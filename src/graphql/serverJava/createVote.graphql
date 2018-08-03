@@ -1,0 +1,12 @@
+mutation createVote($linkId: ID!, $userId: ID!) {
+  createVote(linkId: $linkId, userId: $userId) {
+    id
+    createdAt
+    user {
+      id
+    }
+    link {
+      id
+    }
+  }
+}
