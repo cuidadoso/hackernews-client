@@ -6,25 +6,22 @@ import Link from './Link';
 import { LINKS_PER_PAGE } from '../constants';
 
 export const FEED_QUERY = gql`
-  query FeedQuery($first: Int, $skip: Int, $orderBy: LinkOrderByInput) {
-    feed(first: $first, skip: $skip, orderBy: $orderBy) {
-      links {
+  query links($skip: Int, $first: Int, $orderBy: String) {
+    links(skip: $skip, first: $first, orderBy: $orderBy) {
+      id
+      createdAt
+      url
+      description
+      postedBy {
         id
-        createdAt
-        url
-        description
-        postedBy {
+        name
+      }
+      votes {
+        id
+        user {
           id
-          name
-        }
-        votes {
-          id
-          user {
-            id
-          }
         }
       }
-      count
     }
   }
 `;
@@ -94,7 +91,7 @@ class LinkList extends Component {
       variables: { first, skip, orderBy }
     });
 
-    const votedLink = data.feed.links.find((link) => link.id === linkId);
+    const votedLink = data.links.find((link) => link.id === linkId);
     votedLink.votes = createVote.link.votes;
 
     store.writeQuery({ query: FEED_QUERY, data });
@@ -108,11 +105,9 @@ class LinkList extends Component {
         const newLink = subscriptionData.data.newLink.node;
 
         return Object.assign({}, prev, {
-          feed: {
-            links: [newLink, ...prev.feed.links],
-            count: prev.feed.links.length + 1,
-            __typename: prev.feed.__typename
-          }
+          links: [newLink, ...prev.links],
+          count: prev.links.length + 1,
+          __typename: prev.__typename
         });
       }
     });
@@ -137,16 +132,16 @@ class LinkList extends Component {
   _getLinksToRender = (data) => {
     const isNewPage = this.props.location.pathname.includes('new');
     if (isNewPage) {
-      return data.feed.links;
+      return data.links;
     }
-    const rankedLinks = data.feed.links.slice();
+    const rankedLinks = data.links.slice();
     rankedLinks.sort((l1, l2) => l2.votes.length - l1.votes.length);
     return rankedLinks;
   };
 
   _nextPage = (data) => {
     const page = parseInt(this.props.match.params.page, 10);
-    if (page <= data.feed.count / LINKS_PER_PAGE) {
+    if (page <= data.count / LINKS_PER_PAGE) {
       const nextPage = page + 1;
       this.props.history.push(`/new/${nextPage}`);
     }

@@ -6,3 +6,9 @@ mutation createUser($name: String!, $email: String!, $password: String!) {
     password
   }
 }
+
+mutation signUp($name: String!, $email: String!, $password: String!) {
+  signUp(name: $name, email: $email, password: $password) {
+    token
+  }
+}

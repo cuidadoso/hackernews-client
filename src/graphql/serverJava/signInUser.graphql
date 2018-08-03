@@ -1,5 +1,5 @@
-mutation signinUser($auth: AuthData!) {
-  signinUser(auth: $auth) {
+mutation signIn($auth: AuthData!) {
+  signIn(auth: $auth) {
     token
     user {
       id

@@ -5,22 +5,20 @@ import gql from 'graphql-tag';
 import Link from './Link';
 
 const FEED_SEARCH_QUERY = gql`
-  query FeedSearchQuery($filter: String!) {
-    feed(filter: $filter) {
-      links {
+  query links($filter: LinkFilter!) {
+    links(filter: $filter) {
+      id
+      url
+      description
+      createdAt
+      postedBy {
         id
-        url
-        description
-        createdAt
-        postedBy {
+        name
+      }
+      votes {
+        id
+        user {
           id
-          name
-        }
-        votes {
-          id
-          user {
-            id
-          }
         }
       }
     }
@@ -55,9 +53,11 @@ class Search extends Component {
     const { filter } = this.state;
     const result = await this.props.client.query({
       query: FEED_SEARCH_QUERY,
-      variables: { filter }
+      variables: {
+        filter: { description_contains: filter, url_contains: filter }
+      }
     });
-    const links = result.data.feed.links;
+    const links = result.data.links;
     this.setState({ links });
   };
 }

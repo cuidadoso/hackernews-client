@@ -5,15 +5,15 @@ import { Mutation } from 'react-apollo';
 import { AUTH_TOKEN } from '../constants';
 
 const SIGNUP_MUTATION = gql`
-  mutation SignupMutation($email: String!, $password: String!, $name: String!) {
-    signup(email: $email, password: $password, name: $name) {
+  mutation signUp($name: String!, $email: String!, $password: String!) {
+    signUp(name: $name, email: $email, password: $password) {
       token
     }
   }
 `;
 
 const LOGIN_MUTATION = gql`
-  mutation LoginMutation($email: String!, $password: String!) {
+  mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       token
     }
@@ -79,7 +79,7 @@ class Login extends Component {
   }
 
   _confirm = async (data) => {
-    const { token } = this.state.login ? data.login : data.signup;
+    const { token } = this.state.login ? data.login : data.signUp;
     this._saveUserData(token);
     this.props.history.push(`/`);
   };
