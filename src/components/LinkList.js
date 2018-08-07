@@ -6,8 +6,8 @@ import Link from './Link';
 import { LINKS_PER_PAGE } from '../constants';
 
 export const FEED_QUERY = gql`
-  query links($skip: Int, $first: Int, $orderBy: String) {
-    links(skip: $skip, first: $first, orderBy: $orderBy) {
+  query links($page: Int, $size: Int, $orderBy: String) {
+    links(page: $page, size: $size, orderBy: $orderBy) {
       id
       createdAt
       url
@@ -81,14 +81,12 @@ const NEW_VOTES_SUBSCRIPTION = gql`
 class LinkList extends Component {
   _updateCacheAfterVote = (store, createVote, linkId) => {
     const isNewPage = this.props.location.pathname.includes('new');
-    const page = parseInt(this.props.match.params.page, 10);
+    const page = parseInt(this.props.match.params.page, 10) - 1;
 
-    const skip = isNewPage ? (page - 1) * LINKS_PER_PAGE : 0;
-    const first = isNewPage ? LINKS_PER_PAGE : 100;
     const orderBy = isNewPage ? 'createdAt_DESC' : null;
     const data = store.readQuery({
       query: FEED_QUERY,
-      variables: { first, skip, orderBy }
+      variables: { page, size: LINKS_PER_PAGE, orderBy }
     });
 
     const votedLink = data.links.find((link) => link.id === linkId);
@@ -121,12 +119,10 @@ class LinkList extends Component {
 
   _getQueryVariables = () => {
     const isNewPage = this.props.location.pathname.includes('new');
-    const page = parseInt(this.props.match.params.page, 10);
-
-    const skip = isNewPage ? (page - 1) * LINKS_PER_PAGE : 0;
-    const first = isNewPage ? LINKS_PER_PAGE : 100;
+    const page = isNewPage ? parseInt(this.props.match.params.page, 10) - 1 : 0;
+    const size = isNewPage ? LINKS_PER_PAGE : 100;
     const orderBy = isNewPage ? 'createdAt_DESC' : null;
-    return { first, skip, orderBy };
+    return { page, size, orderBy };
   };
 
   _getLinksToRender = (data) => {

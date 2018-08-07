@@ -6,8 +6,8 @@ import { FEED_QUERY } from './LinkList';
 import { LINKS_PER_PAGE } from '../constants';
 
 const POST_MUTATION = gql`
-  mutation PostMutation($description: String!, $url: String!) {
-    post(description: $description, url: $url) {
+  mutation createLink($description: String!, $url: String!) {
+    createLink(description: $description, url: $url) {
       id
       createdAt
       url
@@ -47,18 +47,17 @@ class CreateLink extends Component {
           variables={{ description, url }}
           onCompleted={() => this.props.history.push('/new/1')}
           update={(store, { data: { post } }) => {
-            const first = LINKS_PER_PAGE;
-            const skip = 0;
+            const page = 0;
             const orderBy = 'createdAt_DESC';
             const data = store.readQuery({
               query: FEED_QUERY,
-              variables: { first, skip, orderBy }
+              variables: { page, size: LINKS_PER_PAGE, orderBy }
             });
             data.feed.links.unshift(post);
             store.writeQuery({
               query: FEED_QUERY,
               data,
-              variables: { first, skip, orderBy }
+              variables: { page, size: LINKS_PER_PAGE, orderBy }
             });
           }}
         >
