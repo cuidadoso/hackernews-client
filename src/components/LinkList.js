@@ -8,19 +8,25 @@ import { LINKS_PER_PAGE } from '../constants';
 export const FEED_QUERY = gql`
   query links($page: Int, $size: Int, $orderBy: String) {
     links(page: $page, size: $size, orderBy: $orderBy) {
-      id
-      createdAt
-      url
-      description
-      postedBy {
+      items {
         id
-        name
-      }
-      votes {
-        id
-        user {
+        createdAt
+        url
+        description
+        postedBy {
           id
+          name
         }
+        votes {
+          id
+          user {
+            id
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
       }
     }
   }
@@ -89,7 +95,7 @@ class LinkList extends Component {
       variables: { page, size: LINKS_PER_PAGE, orderBy }
     });
 
-    const votedLink = data.links.find((link) => link.id === linkId);
+    const votedLink = data.links.items.find((link) => link.id === linkId);
     votedLink.votes = createVote.link.votes;
 
     store.writeQuery({ query: FEED_QUERY, data });
@@ -128,27 +134,29 @@ class LinkList extends Component {
   _getLinksToRender = (data) => {
     const isNewPage = this.props.location.pathname.includes('new');
     if (isNewPage) {
-      return data.links;
+      return data.links.items;
     }
-    const rankedLinks = data.links.slice();
+    const rankedLinks = data.links.items.slice();
     rankedLinks.sort((l1, l2) => l2.votes.length - l1.votes.length);
     return rankedLinks;
   };
 
   _nextPage = (data) => {
-    const page = parseInt(this.props.match.params.page, 10);
-    if (page <= data.count / LINKS_PER_PAGE) {
+    const nextPage = parseInt(this.props.match.params.page, 10) + 1;
+    /*if (page <= data.count / LINKS_PER_PAGE) {
       const nextPage = page + 1;
       this.props.history.push(`/new/${nextPage}`);
-    }
+    }*/
+    this.props.history.push(`/new/${nextPage}`);
   };
 
   _previousPage = () => {
-    const page = parseInt(this.props.match.params.page, 10);
-    if (page > 1) {
+    const previousPage = parseInt(this.props.match.params.page, 10) - 1;
+    /*if (page > 1) {
       const previousPage = page - 1;
       this.props.history.push(`/new/${previousPage}`);
-    }
+    }*/
+    this.props.history.push(`/new/${previousPage}`);
   };
 
   render() {
@@ -160,7 +168,6 @@ class LinkList extends Component {
 
           this._subscribeToNewLinks(subscribeToMore);
           this._subscribeToNewVotes(subscribeToMore);
-
           const linksToRender = this._getLinksToRender(data);
           const isNewPage = this.props.location.pathname.includes('new');
           const pageIndex = this.props.match.params.page
@@ -179,12 +186,19 @@ class LinkList extends Component {
               ))}
               {isNewPage && (
                 <div className="flex ml4 mv3 gray">
-                  <div className="pointer mr2" onClick={this._previousPage}>
-                    Previous
-                  </div>
-                  <div className="pointer" onClick={() => this._nextPage(data)}>
-                    Next
-                  </div>
+                  {data.links.pageInfo.hasPreviousPage && (
+                    <div className="pointer mr2" onClick={this._previousPage}>
+                      Previous
+                    </div>
+                  )}
+                  {data.links.pageInfo.hasNextPage && (
+                    <div
+                      className="pointer"
+                      onClick={() => this._nextPage(data)}
+                    >
+                      Next
+                    </div>
+                  )}
                 </div>
               )}
             </Fragment>
