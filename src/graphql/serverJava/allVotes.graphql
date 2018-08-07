@@ -11,8 +11,8 @@ query votes {
   }
 }
 
-query allVotes($userId: ID, $linkId: ID) {
-  allVotes(userId: $userId, linkId: $linkId) {
+query votes($userId: ID, $linkId: ID) {
+  votes(userId: $userId, linkId: $linkId) {
     id
     name
     email
@@ -20,8 +20,8 @@ query allVotes($userId: ID, $linkId: ID) {
   }
 }
 
-query allVotes($skip: Int, $first: Int) {
-  allVotes(skip: $skip, first: $first) {
+query votes($skip: Int, $first: Int) {
+  votes(skip: $skip, first: $first) {
     id
     createdAt
     user {

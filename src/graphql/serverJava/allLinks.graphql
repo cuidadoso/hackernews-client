@@ -1,5 +1,5 @@
-query allLinks {
-  allLinks {
+query links {
+  links {
     id
     url
     description
@@ -9,8 +9,8 @@ query allLinks {
   }
 }
 
-query allLinks($filter: LinkFilter) {
-  allLinks(filter: $filter) {
+query links($filter: LinkFilter) {
+  links(filter: $filter) {
     id
     url
     description
@@ -20,8 +20,8 @@ query allLinks($filter: LinkFilter) {
   }
 }
 
-query allLinks($skip: Int, $first: Int) {
-  allLinks(skip: $skip, first: $first) {
+query links($skip: Int, $first: Int) {
+  links(skip: $skip, first: $first) {
     id
     url
     description
@@ -31,8 +31,8 @@ query allLinks($skip: Int, $first: Int) {
   }
 }
 
-query allLinks($skip: Int, $first: Int, $orderBy: String) {
-  allLinks(skip: $skip, first: $first, orderBy: $orderBy) {
+query links($skip: Int, $first: Int, $orderBy: String) {
+  links(skip: $skip, first: $first, orderBy: $orderBy) {
     id
     createdAt
     url

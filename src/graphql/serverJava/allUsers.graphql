@@ -1,5 +1,5 @@
-query allUsers {
-  allUsers {
+query users {
+  users {
     id
     name
     email
@@ -7,8 +7,8 @@ query allUsers {
   }
 }
 
-query allUsers($email: String) {
-  allUsers(email: $email) {
+query users($email: String) {
+  users(email: $email) {
     id
     name
     email
@@ -16,8 +16,8 @@ query allUsers($email: String) {
   }
 }
 
-query allUsers($skip: Int, $first: Int) {
-  allUsers(skip: $skip, first: $first) {
+query users($skip: Int, $first: Int) {
+  users(skip: $skip, first: $first) {
     id
     name
     email
