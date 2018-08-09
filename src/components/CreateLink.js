@@ -46,14 +46,14 @@ class CreateLink extends Component {
           mutation={POST_MUTATION}
           variables={{ description, url }}
           onCompleted={() => this.props.history.push('/new/1')}
-          update={(store, { data: { post } }) => {
+          update={(store, { data: { createLink } }) => {
             const page = 0;
             const orderBy = 'createdAt_DESC';
             const data = store.readQuery({
               query: FEED_QUERY,
               variables: { page, size: LINKS_PER_PAGE, orderBy }
             });
-            data.feed.links.unshift(post);
+            data.links.items.unshift(createLink);
             store.writeQuery({
               query: FEED_QUERY,
               data,

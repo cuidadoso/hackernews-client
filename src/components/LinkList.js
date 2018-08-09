@@ -33,7 +33,7 @@ export const FEED_QUERY = gql`
 `;
 
 const NEW_LINKS_SUBSCRIPTION = gql`
-  subscription {
+  subscription newLink {
     newLink {
       node {
         id
@@ -56,7 +56,7 @@ const NEW_LINKS_SUBSCRIPTION = gql`
 `;
 
 const NEW_VOTES_SUBSCRIPTION = gql`
-  subscription {
+  subscription newVote {
     newVote {
       node {
         id
@@ -86,19 +86,21 @@ const NEW_VOTES_SUBSCRIPTION = gql`
 
 class LinkList extends Component {
   _updateCacheAfterVote = (store, createVote, linkId) => {
-    const isNewPage = this.props.location.pathname.includes('new');
-    const page = parseInt(this.props.match.params.page, 10) - 1;
+    if (createVote) {
+      const isNewPage = this.props.location.pathname.includes('new');
+      const page = parseInt(this.props.match.params.page, 10) - 1;
 
-    const orderBy = isNewPage ? 'createdAt_DESC' : null;
-    const data = store.readQuery({
-      query: FEED_QUERY,
-      variables: { page, size: LINKS_PER_PAGE, orderBy }
-    });
+      const orderBy = isNewPage ? 'createdAt_DESC' : null;
+      const data = store.readQuery({
+        query: FEED_QUERY,
+        variables: { page, size: LINKS_PER_PAGE, orderBy }
+      });
 
-    const votedLink = data.links.items.find((link) => link.id === linkId);
-    votedLink.votes = createVote.link.votes;
+      const votedLink = data.links.items.find((link) => link.id === linkId);
+      votedLink.votes = createVote.link.votes;
 
-    store.writeQuery({ query: FEED_QUERY, data });
+      store.writeQuery({ query: FEED_QUERY, data });
+    }
   };
 
   _subscribeToNewLinks = (subscribeToMore) => {
@@ -141,21 +143,13 @@ class LinkList extends Component {
     return rankedLinks;
   };
 
-  _nextPage = (data) => {
+  _nextPage = () => {
     const nextPage = parseInt(this.props.match.params.page, 10) + 1;
-    /*if (page <= data.count / LINKS_PER_PAGE) {
-      const nextPage = page + 1;
-      this.props.history.push(`/new/${nextPage}`);
-    }*/
     this.props.history.push(`/new/${nextPage}`);
   };
 
   _previousPage = () => {
     const previousPage = parseInt(this.props.match.params.page, 10) - 1;
-    /*if (page > 1) {
-      const previousPage = page - 1;
-      this.props.history.push(`/new/${previousPage}`);
-    }*/
     this.props.history.push(`/new/${previousPage}`);
   };
 

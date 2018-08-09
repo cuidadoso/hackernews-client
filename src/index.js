@@ -16,7 +16,7 @@ import registerServiceWorker from './registerServiceWorker';
 import { AUTH_TOKEN } from './constants';
 
 const wsLink = new WebSocketLink({
-  uri: `ws://localhost:4000`,
+  uri: `ws://localhost:8080/subscriptions`,
   options: {
     reconnect: true,
     connectionParams: {
