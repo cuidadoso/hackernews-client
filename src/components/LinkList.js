@@ -164,9 +164,6 @@ class LinkList extends Component {
           this._subscribeToNewVotes(subscribeToMore);
           const linksToRender = this._getLinksToRender(data);
           const isNewPage = this.props.location.pathname.includes('new');
-          const pageIndex = this.props.match.params.page
-            ? (this.props.match.params.page - 1) * LINKS_PER_PAGE
-            : 0;
 
           return (
             <Fragment>
