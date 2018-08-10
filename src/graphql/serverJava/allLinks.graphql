@@ -9,30 +9,58 @@ query links {
   }
 }
 
-query links($filter: LinkFilter) {
+query links($filter: LinkFilter!) {
   links(filter: $filter) {
-    id
-    url
-    description
-    postedBy {
-      name
+    items {
+      id
+      createdAt
+      url
+      description
+      postedBy {
+        id
+        name
+      }
+      votes {
+        id
+        user {
+          id
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
     }
   }
 }
 
-query links($skip: Int, $first: Int) {
-  links(skip: $skip, first: $first) {
-    id
-    url
-    description
-    postedBy {
-      name
+query links($page: Int, $size: Int, $orderBy: String) {
+  links(page: $page, size: $size, orderBy: $orderBy) {
+    items {
+      id
+      createdAt
+      url
+      description
+      postedBy {
+        id
+        name
+      }
+      votes {
+        id
+        user {
+          id
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
     }
   }
 }
 
-query links($skip: Int, $first: Int, $orderBy: String) {
-  links(skip: $skip, first: $first, orderBy: $orderBy) {
+query links($page: Int, $size: Int, $orderBy: String) {
+  links(page: $page, size: $size, orderBy: $orderBy) {
     id
     createdAt
     url

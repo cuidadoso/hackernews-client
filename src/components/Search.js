@@ -7,19 +7,25 @@ import Link from './Link';
 const FEED_SEARCH_QUERY = gql`
   query links($filter: LinkFilter!) {
     links(filter: $filter) {
-      id
-      url
-      description
-      createdAt
-      postedBy {
+      items {
         id
-        name
-      }
-      votes {
-        id
-        user {
+        createdAt
+        url
+        description
+        postedBy {
           id
+          name
         }
+        votes {
+          id
+          user {
+            id
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
       }
     }
   }
@@ -57,7 +63,7 @@ class Search extends Component {
         filter: { description_contains: filter, url_contains: filter }
       }
     });
-    const links = result.data.links;
+    const links = result.data.links.items;
     this.setState({ links });
   };
 }
