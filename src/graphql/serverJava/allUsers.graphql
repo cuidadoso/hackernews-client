@@ -1,9 +1,15 @@
 query users {
   users {
-    id
-    name
-    email
-    password
+    items {
+      id
+      name
+      email
+      password
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
   }
 }
 
