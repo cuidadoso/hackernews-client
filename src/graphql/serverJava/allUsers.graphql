@@ -2,6 +2,11 @@ query users {
   users {
     items {
       id
+      createdAt
+      createdBy {
+        id
+        name
+      }
       name
       email
       password
@@ -15,18 +20,40 @@ query users {
 
 query users($email: String) {
   users(email: $email) {
-    id
-    name
-    email
-    password
+    items {
+      id
+      createdAt
+      createdBy {
+        id
+        name
+      }
+      name
+      email
+      password
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
   }
 }
 
 query users($skip: Int, $first: Int) {
   users(skip: $skip, first: $first) {
-    id
-    name
-    email
-    password
+    items {
+      id
+      createdAt
+      createdBy {
+        id
+        name
+      }
+      name
+      email
+      password
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+    }
   }
 }

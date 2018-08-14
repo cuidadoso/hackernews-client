@@ -1,10 +1,34 @@
 query links {
   links {
-    id
-    url
-    description
-    postedBy {
-      name
+    items {
+      id
+      createdAt
+      createdBy {
+        id
+        name
+      }
+      updatedAt
+      updatedBy {
+        id
+        name
+      }
+      deletedAt
+      deletedBy {
+        id
+        name
+      }
+      url
+      description
+      postedBy {
+        id
+        name
+      }
+      votes {
+        id
+        user {
+          id
+        }
+      }
     }
   }
 }
@@ -14,6 +38,10 @@ query links($filter: LinkFilter!) {
     items {
       id
       createdAt
+      createdBy {
+        id
+        name
+      }
       url
       description
       postedBy {
@@ -39,6 +67,10 @@ query links($page: Int, $size: Int, $orderBy: String) {
     items {
       id
       createdAt
+      createdBy {
+        id
+        name
+      }
       url
       description
       postedBy {
@@ -61,19 +93,29 @@ query links($page: Int, $size: Int, $orderBy: String) {
 
 query links($page: Int, $size: Int, $orderBy: String) {
   links(page: $page, size: $size, orderBy: $orderBy) {
-    id
-    createdAt
-    url
-    description
-    postedBy {
+    items {
       id
-      name
-    }
-    votes {
-      id
-      user {
+      createdAt
+      createdBy {
         id
+        name
       }
+      url
+      description
+      postedBy {
+        id
+        name
+      }
+      votes {
+        id
+        user {
+          id
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
     }
   }
 }
