@@ -58,6 +58,7 @@ query links($filter: LinkFilter!) {
     pageInfo {
       hasNextPage
       hasPreviousPage
+      total
     }
   }
 }
@@ -87,6 +88,7 @@ query links($page: Int, $size: Int, $orderBy: String) {
     pageInfo {
       hasNextPage
       hasPreviousPage
+      total
     }
   }
 }
@@ -116,6 +118,7 @@ query links($page: Int, $size: Int, $orderBy: String) {
     pageInfo {
       hasNextPage
       hasPreviousPage
+      total
     }
   }
 }

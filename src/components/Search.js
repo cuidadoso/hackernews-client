@@ -26,6 +26,7 @@ const FEED_SEARCH_QUERY = gql`
       pageInfo {
         hasNextPage
         hasPreviousPage
+        total
       }
     }
   }
