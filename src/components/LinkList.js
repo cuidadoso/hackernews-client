@@ -3,35 +3,8 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
 import Link from './Link';
-import { LINKS_PER_PAGE } from '../constants';
-
-export const FEED_QUERY = gql`
-  query links($page: Int, $size: Int, $orderBy: String) {
-    links(page: $page, size: $size, orderBy: $orderBy) {
-      items {
-        id
-        createdAt
-        url
-        description
-        postedBy {
-          id
-          name
-        }
-        votes {
-          id
-          user {
-            id
-          }
-        }
-      }
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        total
-      }
-    }
-  }
-`;
+import { DEFAULT_ORDER_BY, DEFAULT_PAGE_SIZE } from '../constants';
+import { LINK_QUERY } from '../quaries';
 
 const NEW_LINKS_SUBSCRIPTION = gql`
   subscription newLink {
@@ -87,16 +60,16 @@ class LinkList extends Component {
       const isNewPage = this.props.location.pathname.includes('new');
       const page = parseInt(this.props.match.params.page, 10) - 1;
 
-      const orderBy = isNewPage ? 'createdAt_DESC' : null;
+      const orderBy = isNewPage ? DEFAULT_ORDER_BY : null;
       const data = store.readQuery({
-        query: FEED_QUERY,
-        variables: { page, size: LINKS_PER_PAGE, orderBy }
+        query: LINK_QUERY,
+        variables: { page, size: DEFAULT_PAGE_SIZE, orderBy }
       });
 
       const votedLink = data.links.items.find((link) => link.id === linkId);
       votedLink.votes = createVote.link.votes;
 
-      store.writeQuery({ query: FEED_QUERY, data });
+      store.writeQuery({ query: LINK_QUERY, data });
     }
   };
 
@@ -124,8 +97,8 @@ class LinkList extends Component {
   _getQueryVariables = () => {
     const isNewPage = this.props.location.pathname.includes('new');
     const page = isNewPage ? parseInt(this.props.match.params.page, 10) - 1 : 0;
-    const size = isNewPage ? LINKS_PER_PAGE : 100;
-    const orderBy = isNewPage ? 'createdAt_DESC' : null;
+    const size = isNewPage ? DEFAULT_PAGE_SIZE : 100;
+    const orderBy = isNewPage ? DEFAULT_ORDER_BY : null;
     return { page, size, orderBy };
   };
 
@@ -151,7 +124,7 @@ class LinkList extends Component {
 
   render() {
     return (
-      <Query query={FEED_QUERY} variables={this._getQueryVariables()}>
+      <Query query={LINK_QUERY} variables={this._getQueryVariables()}>
         {({ loading, error, data, subscribeToMore }) => {
           if (loading) return <div>Fetching</div>;
           if (error) return <div>Error</div>;

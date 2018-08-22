@@ -1,3 +1,5 @@
+import { OrderedMap, Map } from 'immutable';
+
 function timeDifference(current, previous) {
   const milliSecondsPerMinute = 60 * 1000;
   const milliSecondsPerHour = milliSecondsPerMinute * 60;
@@ -30,4 +32,26 @@ export function timeDifferenceForDate(date) {
   const now = new Date().getTime();
   const updated = new Date(date).getTime();
   return timeDifference(now, updated);
+}
+
+export function generateId() {
+  return Date.now();
+}
+
+export function fbDataToEntities(data, RecordModel = Map) {
+  return new OrderedMap(data).mapEntries(([uid, value]) => [
+    uid,
+    new RecordModel(value).set('uid', uid)
+  ]);
+}
+
+export function arrToMap(arr, DataRecord = Map) {
+  return arr.reduce(
+    (acc, item) => acc.set(item.id, new DataRecord(item)),
+    new OrderedMap({})
+  );
+}
+
+export function mapToArr(obj) {
+  return obj.valueSeq().toArray();
 }

@@ -5,6 +5,7 @@ import Header from './Header';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import Login from './Login';
 import Search from './Search';
+import LinkTable from './LinkTable';
 
 class App extends Component {
   render() {
@@ -19,6 +20,7 @@ class App extends Component {
             <Route exact path="/search" component={Search} />
             <Route exact path="/top" component={LinkList} />
             <Route exact path="/new/:page" component={LinkList} />
+            <Route exact path="/table" component={LinkTable} />
           </Switch>
         </div>
       </div>

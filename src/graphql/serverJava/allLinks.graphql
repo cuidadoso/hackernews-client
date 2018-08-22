@@ -63,7 +63,7 @@ query links($filter: LinkFilter!) {
   }
 }
 
-query links($page: Int, $size: Int, $orderBy: String) {
+query links($page: Int, $size: Int, $orderBy: [OrderBy]) {
   links(page: $page, size: $size, orderBy: $orderBy) {
     items {
       id
@@ -93,7 +93,7 @@ query links($page: Int, $size: Int, $orderBy: String) {
   }
 }
 
-query links($page: Int, $size: Int, $orderBy: String) {
+query links($page: Int, $size: Int, $orderBy: [OrderBy]) {
   links(page: $page, size: $size, orderBy: $orderBy) {
     items {
       id

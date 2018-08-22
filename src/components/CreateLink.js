@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import gql from 'graphql-tag';
 import { Mutation } from 'react-apollo';
 
-import { FEED_QUERY } from './LinkList';
-import { LINKS_PER_PAGE } from '../constants';
+import { DEFAULT_ORDER_BY, DEFAULT_PAGE_SIZE } from '../constants';
+import { LINK_QUERY } from '../quaries';
 
 const POST_MUTATION = gql`
   mutation createLink($description: String!, $url: String!) {
@@ -48,16 +48,16 @@ class CreateLink extends Component {
           onCompleted={() => this.props.history.push('/new/1')}
           update={(store, { data: { createLink } }) => {
             const page = 0;
-            const orderBy = 'createdAt_DESC';
+            const orderBy = DEFAULT_ORDER_BY;
             const data = store.readQuery({
-              query: FEED_QUERY,
-              variables: { page, size: LINKS_PER_PAGE, orderBy }
+              query: LINK_QUERY,
+              variables: { page, size: DEFAULT_PAGE_SIZE, orderBy }
             });
             data.links.items.unshift(createLink);
             store.writeQuery({
-              query: FEED_QUERY,
+              query: LINK_QUERY,
               data,
-              variables: { page, size: LINKS_PER_PAGE, orderBy }
+              variables: { page, size: DEFAULT_PAGE_SIZE, orderBy }
             });
           }}
         >
