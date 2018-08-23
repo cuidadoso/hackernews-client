@@ -30,7 +30,6 @@ class Table extends Component {
   };
 
   state = {
-    pageSize: DEFAULT_PAGE_SIZE,
     loading: false
   };
 
@@ -40,11 +39,6 @@ class Table extends Component {
     const { getData } = this.props;
     getData(filtered, page, pageSize, sorted);
     this.setState({ loading: false });
-  };
-
-  changeSize = (state) => {
-    const { pageSize } = state;
-    this.setState({ pageSize });
   };
 
   render() {
@@ -57,7 +51,7 @@ class Table extends Component {
       filterable,
       pages
     } = this.props;
-    const { pageSize, loading } = this.state;
+    const { loading } = this.state;
     return (
       <ReactTable
         data={data}
@@ -66,7 +60,6 @@ class Table extends Component {
         pages={pages} // Display the total number of pages
         loading={loading} // Display the loading overlay when we need it
         onFetchData={this.fetchData} // Request new data when things change
-        onPageSizeChange={this.changeSize}
         filterable={filterable}
         defaultPageSize={defaultPageSize}
         defaultSorted={defaultSorted}

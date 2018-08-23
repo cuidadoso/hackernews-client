@@ -38,10 +38,7 @@ class LinkTable extends Component {
     page: 0,
     size: DEFAULT_PAGE_SIZE,
     orderBy: DEFAULT_ORDER_BY,
-    filter: {
-      description_contains: null,
-      url_contains: null
-    }
+    filter: []
   };
 
   getData = (filter, page, size, orderBy) => {
