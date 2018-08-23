@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import Link from './Link';
 
 const FEED_SEARCH_QUERY = gql`
-  query links($filter: LinkFilter!) {
+  query links($filter: [Filter]!) {
     links(filter: $filter) {
       items {
         id
@@ -61,7 +61,16 @@ class Search extends Component {
     const result = await this.props.client.query({
       query: FEED_SEARCH_QUERY,
       variables: {
-        filter: { description_contains: filter, url_contains: filter }
+        filter: [
+          {
+            id: 'url',
+            value: filter
+          },
+          {
+            id: 'description',
+            value: filter
+          }
+        ]
       }
     });
     const links = result.data.links.items;

@@ -33,7 +33,7 @@ query links {
   }
 }
 
-query links($filter: LinkFilter!) {
+query links($filter: [Filter]!) {
   links(filter: $filter) {
     items {
       id
