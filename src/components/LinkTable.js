@@ -65,18 +65,21 @@ class LinkTable extends Component {
     return (
       <Query query={LINK_QUERY} variables={{ filter, page, size, orderBy }}>
         {({ loading, error, data }) => {
-          if (loading) return <div>Fetching</div>;
           if (error) return <div>Error</div>;
-
-          const linksToRender = data.links.items.map((link) => {
-            return { ...link, postedBy: link.postedBy.name };
-          });
-          const { totalPages } = data.links.pageInfo;
+          let linksToRender = [];
+          let totalPages = 0;
+          if (!loading) {
+            linksToRender = data.links.items.map((link) => {
+              return { ...link, postedBy: link.postedBy.name };
+            });
+            totalPages = data.links.pageInfo.totalPages;
+          }
           return (
             <Table
               columns={columns}
               data={linksToRender}
               getData={this.getData}
+              loading={loading}
               pages={totalPages}
             />
           );

@@ -15,6 +15,7 @@ class Table extends Component {
     defaultSorted: DEFAULT_ORDER_BY,
     manual: true,
     filterable: true,
+    loading: false,
     pages: null
   };
 
@@ -25,20 +26,14 @@ class Table extends Component {
     defaultSorted: PropTypes.array,
     manual: PropTypes.bool,
     filterable: PropTypes.bool,
+    loading: PropTypes.bool,
     pages: PropTypes.number,
     getData: PropTypes.func.isRequired
   };
 
-  state = {
-    loading: false
-  };
-
   fetchData = (state) => {
-    this.setState({ loading: true });
     const { pageSize, page, sorted, filtered } = state;
-    const { getData } = this.props;
-    getData(filtered, page, pageSize, sorted);
-    this.setState({ loading: false });
+    this.props.getData(filtered, page, pageSize, sorted);
   };
 
   render() {
@@ -49,9 +44,10 @@ class Table extends Component {
       defaultSorted,
       manual,
       filterable,
-      pages
+      pages,
+      loading
     } = this.props;
-    const { loading } = this.state;
+
     return (
       <ReactTable
         data={data}
