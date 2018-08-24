@@ -25,8 +25,8 @@ class Table extends Component {
     defaultSorted: PropTypes.array,
     manual: PropTypes.bool,
     filterable: PropTypes.bool,
-    getData: PropTypes.func.isRequired,
-    pages: PropTypes.number
+    pages: PropTypes.number,
+    getData: PropTypes.func.isRequired
   };
 
   state = {

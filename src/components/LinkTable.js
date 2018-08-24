@@ -42,8 +42,18 @@ class LinkTable extends Component {
   };
 
   getData = (filter, page, size, orderBy) => {
+    console.log(
+      '--- filter: ',
+      filter,
+      '--- page: ',
+      page,
+      '--- size: ',
+      size,
+      '--- orderBy: ',
+      orderBy
+    );
     this.setState({
-      // filter,
+      filter,
       page,
       size,
       orderBy
