@@ -25,6 +25,7 @@ class Header extends Component {
           <Link to="/table" className="ml1 no-underline black">
             table
           </Link>
+          <div className="ml1">|</div>
           {authToken && (
             <div className="flex">
               <div className="ml1">|</div>

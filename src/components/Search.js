@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 
 import Link from './Link';
 
-const FEED_SEARCH_QUERY = gql`
+const LINK_SEARCH_QUERY = gql`
   query links($filter: [Filter]!) {
     links(filter: $filter) {
       items {
@@ -22,11 +22,6 @@ const FEED_SEARCH_QUERY = gql`
             id
           }
         }
-      }
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        total
       }
     }
   }
@@ -59,7 +54,7 @@ class Search extends Component {
   _executeSearch = async () => {
     const { filter } = this.state;
     const result = await this.props.client.query({
-      query: FEED_SEARCH_QUERY,
+      query: LINK_SEARCH_QUERY,
       variables: {
         filter: [
           {
