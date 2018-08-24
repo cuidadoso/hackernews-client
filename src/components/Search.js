@@ -63,11 +63,7 @@ class Search extends Component {
       variables: {
         filter: [
           {
-            id: 'url',
-            value: filter
-          },
-          {
-            id: 'description',
+            id: 'url_or_description',
             value: filter
           }
         ]
