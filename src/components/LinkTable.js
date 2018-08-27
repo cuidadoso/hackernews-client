@@ -3,11 +3,12 @@ import { Query } from 'react-apollo';
 
 import {
   DEFAULT_ORDER_BY,
+  DEFAULT_PAGE_COUNT,
   DEFAULT_PAGE_NUMBER,
   DEFAULT_PAGE_SIZE
 } from '../constants';
 import Table from './table/Table';
-import { LINK_QUERY } from '../quaries';
+import { LINK_QUERY_TABLE } from '../quaries';
 
 const columns = [
   {
@@ -46,16 +47,6 @@ class LinkTable extends Component {
   };
 
   getData = (filter, page, size, orderBy) => {
-    console.log(
-      '--- filter: ',
-      filter,
-      '--- page: ',
-      page,
-      '--- size: ',
-      size,
-      '--- orderBy: ',
-      orderBy
-    );
     this.setState({
       filter,
       page,
@@ -67,16 +58,21 @@ class LinkTable extends Component {
   render() {
     const { page, size, orderBy, filter } = this.state;
     return (
-      <Query query={LINK_QUERY} variables={{ filter, page, size, orderBy }}>
+      <Query
+        query={LINK_QUERY_TABLE}
+        variables={{ filter, page, size, orderBy }}
+      >
         {({ loading, error, data }) => {
           if (error) return <div>Error</div>;
           let linksToRender = [];
-          let totalPages = 0;
+          let totalPages = DEFAULT_PAGE_COUNT;
+          let pageNumber = DEFAULT_PAGE_NUMBER;
           if (!loading) {
             linksToRender = data.links.items.map((link) => {
               return { ...link, postedBy: link.postedBy.name };
             });
             totalPages = data.links.pageInfo.totalPages;
+            pageNumber = data.links.pageInfo.pageNumber;
           }
           return (
             <Table
@@ -85,6 +81,7 @@ class LinkTable extends Component {
               getData={this.getData}
               loading={loading}
               pages={totalPages}
+              pageNumber={pageNumber}
             />
           );
         }}

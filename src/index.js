@@ -48,9 +48,15 @@ const link = split(
   authLink.concat(httpLink)
 );
 
+const cache = new InMemoryCache({
+  dataIdFromObject: (object) => {
+    console.log('--- cache: ', object);
+  }
+});
+
 const client = new ApolloClient({
   link,
-  cache: new InMemoryCache()
+  cache
 });
 
 ReactDOM.render(
