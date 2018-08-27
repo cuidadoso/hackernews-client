@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { Query } from 'react-apollo';
 
-import { DEFAULT_ORDER_BY, DEFAULT_PAGE_SIZE } from '../constants';
+import {
+  DEFAULT_ORDER_BY,
+  DEFAULT_PAGE_NUMBER,
+  DEFAULT_PAGE_SIZE
+} from '../constants';
 import Table from './table/Table';
 import { LINK_QUERY } from '../quaries';
 
@@ -35,7 +39,7 @@ class LinkTable extends Component {
   static propTypes = {};
 
   state = {
-    page: 0,
+    page: DEFAULT_PAGE_NUMBER,
     size: DEFAULT_PAGE_SIZE,
     orderBy: DEFAULT_ORDER_BY,
     filter: []
